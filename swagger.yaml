@@ -1,0 +1,181 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: TodoList
+  description: An example using Kitura to develop a  app Backend
+  termsOfService: http://helloreverb.com/terms/
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: todolist.swagger.io
+basePath: /api/todos/:id
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      description: Returns all todos of the user
+      operationId: findTodos
+      produces:
+        - application/json
+        - application/xml
+        - text/xml
+        - text/html
+      responses:
+        '200':
+          description: todos response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/todo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      description: Creates a new todo item.  Duplicates are allowed
+      operationId: addTodo
+      produces:
+        - application/json
+      parameters:
+        - name: todoitem
+          in: body
+          description: todo item to be added to todoList
+          required: true
+          schema:
+            $ref: '#/definitions/todobody'
+      responses:
+        '200':
+          description: the added todo item
+          schema:
+            $ref: '#/definitions/todo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: Deletes all todo items of current user
+      operationId: deleteTodos
+      produces:
+        - application/json
+      responses:
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  /api/todos/{todoID}:
+    get:
+      description: Returns a todo of the user
+      operationId: getTodo
+      produces:
+        - application/json
+        - application/xml
+        - text/xml
+        - text/html
+      parameters:
+        - in: path
+          name: todoID
+          description: todo documentID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: todo item
+          schema:
+            $ref: '#/definitions/todo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      description: Updates a todo item
+      operationId: updatePetById
+      produces:
+        - application/json
+        - application/xml
+        - text/xml
+        - text/html
+      parameters:
+        - name: todoID
+          in: path
+          description: ID of todo document
+          required: true
+          type: string
+        - name: todoitem
+          in: body
+          description: todo item details to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/todobody'
+      responses:
+        '200':
+          description: the updated todo item
+          schema:
+            $ref: '#/definitions/todo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: deletes a todo item from todolist
+      operationId: deleteTodo
+      parameters:
+        - name: todoID
+          in: path
+          description: todo documentID
+          required: true
+          type: string
+      responses:
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+definitions:
+  todo:
+    type: object
+    required:
+      - url
+      - user
+      - title
+      - id
+      - order
+      - completed
+    properties:
+      url:
+        type: string
+      user:
+        type: string
+      title:
+        type: string
+      id:
+        type: string
+      order:
+        type: integer
+      completed:
+        type: boolean
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  todobody:
+    properties:
+      data:
+        type: object
+        properties:
+          title:
+            type: string
+          order:
+            type: integer
+          completed:
+            type: boolean
