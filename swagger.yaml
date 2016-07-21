@@ -2,11 +2,10 @@ swagger: '2.0'
 info:
   version: '1.0.0'
   title: TodoList
-  description: An example using Kitura to develop a  app Backend
-  termsOfService: http://helloreverb.com/terms/
+  description: Spec of http://www.todobackend.com/ APIs
   license:
-    name: MIT
-    url: http://opensource.org/licenses/MIT
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
 host: todolist.swagger.io
 basePath: /api/todos/:id
 schemes:
